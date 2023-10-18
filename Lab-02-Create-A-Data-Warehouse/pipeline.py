@@ -16,8 +16,8 @@ def transform_data(data):
 
     # Replace NaN values in the 'Name' column with "N/A"
     new_data['Name'] = new_data['Name'].replace(np.nan, "N/A")
-    # Replace NaN values in the 'Name' column with "N/A"
-    new_data['Name'] = new_data['Name'].replace(r'^\*.*', "N/A")
+    # Replace * in the 'Name' column with empty string
+    new_data['Name'] = new_data['Name'].str.replace('*', "")
 
     # Split 'MonthYear' into 'Month' and 'Year' columns
     new_data[['Month', 'Year']] = new_data['MonthYear'].str.split(" ", expand=True)
