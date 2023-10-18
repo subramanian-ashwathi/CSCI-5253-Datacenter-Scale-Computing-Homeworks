@@ -16,6 +16,8 @@ services:
     command: http://shelterdata.s3.amazonaws.com/shelter1000.csv
     depends_on:
       - db
+    environment:
+      - DATABASE_CONNECTION_STRING=postgresql+psycopg2://ashwathi:sunbeam@db:5432/shelter
     # restart: always
 
 volumes:

@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import numpy as np
 import argparse
+import os
 
 # Function to extract data from a source (CSV in this case)
 def extract_data(source):
@@ -15,6 +16,8 @@ def transform_data(data):
 
     # Replace NaN values in the 'Name' column with "N/A"
     new_data['Name'] = new_data['Name'].replace(np.nan, "N/A")
+    # Replace NaN values in the 'Name' column with "N/A"
+    new_data['Name'] = new_data['Name'].replace(r'^\*.*', "N/A")
 
     # Split 'MonthYear' into 'Month' and 'Year' columns
     new_data[['Month', 'Year']] = new_data['MonthYear'].str.split(" ", expand=True)
@@ -53,7 +56,7 @@ def transform_data(data):
 # Function to load data into a PostgreSQL database
 def load_data(dfs):
     # Define the database connection URL
-    db_url = "postgresql+psycopg2://ashwathi:sunbeam@db:5432/shelter"
+    db_url = os.getenv("DATABASE_CONNECTION_STRING")
     conn = create_engine(db_url)
 
     # Load each DataFrame into the database
